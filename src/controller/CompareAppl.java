@@ -17,21 +17,30 @@ public class CompareAppl {
                 System.out.println("Same files.");
             } else {
                 System.out.println("Different files, copy this file? y/n");
-                String copy = scanner.nextLine();
-                if (copy.equals("y")) {
-                    System.out.println("Input new file name:");
-                    String copyFileName = scanner.nextLine();
-                    try (FileOutputStream fileOutput = new FileOutputStream(copyFileName)) {
-                        int bit = secondFile.read();
-                        while (bit != -1) {
-                            fileOutput.write(bit);
-                            bit = secondFile.read();
-                        }
-                        System.out.println("File copped with name : " + copyFileName);
-                    }
+                String answer = scanner.nextLine();
+                if (answer.equals("y")) {
+                    Copy(secondFile);
                 } else {
                     System.out.println("Exit");
                 }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void Copy(FileInputStream nameSecondFile) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input new file name:");
+        String copyFileName = scanner.nextLine();
+        try {
+            try (FileOutputStream fileOutput = new FileOutputStream(copyFileName)) {
+                int bit = nameSecondFile.read();
+                while (bit != -1) {
+                    fileOutput.write(bit);
+                    bit = nameSecondFile.read();
+                }
+                System.out.println("File copped with name : " + copyFileName);
             }
         } catch (IOException e) {
             e.printStackTrace();
