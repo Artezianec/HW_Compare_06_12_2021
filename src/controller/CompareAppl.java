@@ -15,8 +15,15 @@ public class CompareAppl {
         }
         try (FileInputStream firstFile = new FileInputStream(args[0]); FileInputStream secondFile = new FileInputStream(args[1])) {
             if (firstFile.available() == secondFile.available()) {
-                System.out.println("Same files.");
-                Log("Same files" + args[0] + " and " + args[1]);
+                int f1 = 0, f2 = 0;
+                while (f1 != -1 && f2 != -1) {
+                    f1 = firstFile.read();
+                    f2 = secondFile.read();
+                }
+                {
+                    System.out.println("Same files.");
+                    Log("Same files" + args[0] + " and " + args[1]);
+                }
             } else {
                 System.out.println("Different files, copy this file? y/n");
                 Log("Different files" + args[0] + " and " + args[1]);
@@ -35,7 +42,7 @@ public class CompareAppl {
     }
 
     public static void Copy(FileInputStream nameFirstFile) {
-       //todo BufferedInputStream bufferedInputStream = new BufferedInputStream(nameFirstFile, 200);
+        //todo BufferedInputStream bufferedInputStream = new BufferedInputStream(nameFirstFile, 200);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input new file name:");
         String copyFileName = scanner.nextLine();
@@ -59,7 +66,7 @@ public class CompareAppl {
     }
 
     private static void Log(String string) {
-       //todo LocalDateTime localDateTime = LocalDateTime.now();
+        //todo LocalDateTime localDateTime = LocalDateTime.now();
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file, true);
             fileOutputStream.write(string.getBytes());
