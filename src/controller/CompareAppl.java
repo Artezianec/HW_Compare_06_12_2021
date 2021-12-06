@@ -1,12 +1,12 @@
 package controller;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Scanner;
 
 public class CompareAppl {
     private static final File file = new File("log.txt");
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         if (args.length != 2) {
@@ -23,7 +23,7 @@ public class CompareAppl {
                 String answer = scanner.nextLine();
                 if (answer.equals("y")) {
                     Log("Say yes");
-                    Copy(secondFile);
+                    Copy(firstFile);
                 } else {
                     System.out.println("Exit");
                     Log("Exit program");
@@ -34,20 +34,23 @@ public class CompareAppl {
         }
     }
 
-    public static void Copy(FileInputStream nameSecondFile) {
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(nameSecondFile,200);
+    public static void Copy(FileInputStream nameFirstFile) {
+       //todo BufferedInputStream bufferedInputStream = new BufferedInputStream(nameFirstFile, 200);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input new file name:");
         String copyFileName = scanner.nextLine();
         Log("New copped file name : " + copyFileName);
         try {
             try (FileOutputStream fileOutput = new FileOutputStream(copyFileName)) {
-                int bit = bufferedInputStream.read();
+                Date dateBefore = new Date();
+                int bit = nameFirstFile.read();
                 while (bit != -1) {
                     fileOutput.write(bit);
-                    bit = bufferedInputStream.read();
+                    bit = nameFirstFile.read();
                 }
+                Date dateAfter = new Date();
                 System.out.println("File copped with name : " + copyFileName);
+                System.out.println(dateAfter.getTime() - dateBefore.getTime());
                 Log("File copped without errors");
             }
         } catch (IOException e) {
@@ -56,9 +59,9 @@ public class CompareAppl {
     }
 
     private static void Log(String string) {
-        LocalDateTime localDateTime = LocalDateTime.now();
+       //todo LocalDateTime localDateTime = LocalDateTime.now();
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file,true);
+            FileOutputStream fileOutputStream = new FileOutputStream(file, true);
             fileOutputStream.write(string.getBytes());
             fileOutputStream.close();
         } catch (IOException e) {
